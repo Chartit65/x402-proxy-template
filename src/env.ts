@@ -18,6 +18,8 @@ export interface Env extends CloudflareBindings {
 	ORIGIN_URL?: string;
 	/** Optional: Service Binding to origin Worker */
 	ORIGIN_SERVICE?: Fetcher;
+	/** Optional: KV for /__x402/stats traffic counters */
+	STATS_KV?: KVNamespace;
 }
 
 /** Full app context type for Hono */

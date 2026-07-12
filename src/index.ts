@@ -3,6 +3,12 @@ import { setCookie } from "hono/cookie";
 import { createProtectedRoute, type ProtectedRouteConfig } from "./auth";
 import { generateJWT } from "./jwt";
 import { hasBotManagementException } from "./bot-management";
+import {
+	getStatsSnapshot,
+	isWebBrowser,
+	recordStatEvent,
+	renderStatsHtml,
+} from "./stats";
 import type { AppContext, Env } from "./env";
 
 const app = new Hono<AppContext>();
@@ -23,7 +29,12 @@ const BUILTIN_PROTECTED_PATHS: ProtectedRouteConfig[] = [
  * Built-in public paths that don't require payment
  * These are used for testing and don't need to be configured
  */
-const BUILT_IN_PUBLIC_PATHS = ["/__x402/health", "/__x402/config"];
+const BUILT_IN_PUBLIC_PATHS = [
+	"/__x402/health",
+	"/__x402/config",
+	"/__x402/stats",
+	"/__x402/stats.json",
+];
 
 /**
  * Proxy a request to the origin server.
@@ -184,6 +195,14 @@ app.use("*", async (c, next) => {
 
 		// If middleware returned a response (e.g., 402), return it
 		if (result) {
+			if (result.status === 402) {
+				const eventType = isWebBrowser(c.req.raw)
+					? "browser_visit"
+					: "api_402_peek";
+				c.executionCtx.waitUntil(
+					recordStatEvent(c.env, eventType, routePath)
+				);
+			}
 			return result;
 		}
 
@@ -200,6 +219,9 @@ app.use("*", async (c, next) => {
 			// If we generated a JWT token, set the cookie BEFORE calling next()
 			// so it's included in the response that Hono builds
 			if (jwtToken) {
+				c.executionCtx.waitUntil(
+					recordStatEvent(c.env, "paid_unlock", routePath)
+				);
 				setCookie(c, "auth_token", jwtToken, {
 					httpOnly: true,
 					secure: true,
@@ -218,6 +240,10 @@ app.use("*", async (c, next) => {
 
 		// If we generated a JWT token, add it as a cookie to the response
 		if (jwtToken) {
+			c.executionCtx.waitUntil(
+				recordStatEvent(c.env, "paid_unlock", routePath)
+			);
+
 			// Use Hono's setCookie to generate the proper Set-Cookie header
 			setCookie(c, "auth_token", jwtToken, {
 				httpOnly: true,
@@ -269,6 +295,16 @@ app.get("/__x402/health", (c) => {
  * Config status endpoint - shows current configuration (no secrets exposed)
  * Useful for debugging and verifying deployment
  */
+app.get("/__x402/stats", async (c) => {
+	const stats = await getStatsSnapshot(c.env);
+	return c.html(renderStatsHtml(stats));
+});
+
+app.get("/__x402/stats.json", async (c) => {
+	const stats = await getStatsSnapshot(c.env);
+	return c.json(stats);
+});
+
 app.get("/__x402/config", (c) => {
 	const patterns = (c.env.PROTECTED_PATTERNS || []) as ProtectedRouteConfig[];
 	const botFilteringEnabled = patterns.some(
