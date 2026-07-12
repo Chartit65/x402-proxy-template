@@ -1,0 +1,13 @@
+{
+	"version": 1,
+	"resources": [
+		"GET /1.jpg",
+		"GET /2.jpg",
+		"GET /3.jpg",
+		"GET /4.jpg",
+		"GET /5.jpg",
+		"GET /6.jpg",
+		"GET /7.jpg",
+		"GET /8.jpg"
+	]
+}
