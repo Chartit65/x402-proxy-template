@@ -125,9 +125,11 @@ export function renderStatsHtml(stats: StatsSnapshot): string {
 			: stats.recent
 					.map(
 						(event) =>
-							`<tr><td>${event.ts}</td><td>${labelForType(event.type)}</td><td>${event.path}</td></tr>`
+							`<tr><td>${formatTorontoTime(event.ts)}</td><td>${labelForType(event.type)}</td><td>${event.path}</td></tr>`
 					)
 					.join("");
+
+	const updatedLabel = formatTorontoTime(stats.updated_at);
 
 	return `<!doctype html>
 <html lang="en">
@@ -160,12 +162,40 @@ export function renderStatsHtml(stats: StatsSnapshot): string {
   </div>
   <h2>Last ${MAX_RECENT} events</h2>
   <table>
-    <thead><tr><th>Time (UTC)</th><th>Type</th><th>Path</th></tr></thead>
+    <thead><tr><th>Time (Toronto)</th><th>Type</th><th>Path</th></tr></thead>
     <tbody>${rows}</tbody>
   </table>
-  <p class="sub">Updated: ${stats.updated_at ?? "never"} · <a href="/__x402/stats.json">JSON</a> · <a href="/">Gallery</a></p>
+  <p class="sub">Updated: ${updatedLabel} · <a href="/__x402/stats.json">JSON (UTC)</a> · <a href="/">Gallery</a></p>
 </body>
 </html>`;
+}
+
+/** Operator-facing stats HTML — America/Toronto (EST/EDT). */
+function formatTorontoTime(iso: string | null): string {
+	if (!iso) {
+		return "never";
+	}
+
+	const date = new Date(iso);
+	if (Number.isNaN(date.getTime())) {
+		return iso;
+	}
+
+	const parts = new Intl.DateTimeFormat("en-CA", {
+		timeZone: "America/Toronto",
+		month: "short",
+		day: "numeric",
+		year: "numeric",
+		hour: "numeric",
+		minute: "2-digit",
+		second: "2-digit",
+		hour12: true,
+	}).formatToParts(date);
+
+	const get = (type: Intl.DateTimeFormatPartTypes) =>
+		parts.find((part) => part.type === type)?.value ?? "";
+
+	return `${get("month")} ${get("day")}, ${get("year")} · ${get("hour")}:${get("minute")}:${get("second")} ${get("dayPeriod")} Toronto`;
 }
 
 function labelForType(type: StatEventType): string {
