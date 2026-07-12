@@ -5,6 +5,7 @@
 
 export interface JWTPayload {
 	paid: boolean; // indicates payment was verified
+	path: string; // exact protected path this payment unlocked
 	iat: number; // issued at (seconds since epoch)
 	exp: number; // expires at (seconds since epoch)
 }
@@ -71,11 +72,13 @@ async function importSecretKey(secret: string): Promise<CryptoKey> {
 /**
  * Generate a JWT token
  * @param secret - The secret key for signing
+ * @param path - Protected path this payment unlocks
  * @param expiresInSeconds - Token validity duration (default: 3600 = 1 hour)
  * @returns JWT token string
  */
 export async function generateJWT(
 	secret: string,
+	path: string,
 	expiresInSeconds: number = 3600
 ): Promise<string> {
 	const now = Math.floor(Date.now() / 1000);
@@ -89,6 +92,7 @@ export async function generateJWT(
 	// JWT Payload
 	const payload: JWTPayload = {
 		paid: true,
+		path,
 		iat: now,
 		exp: now + expiresInSeconds,
 	};

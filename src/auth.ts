@@ -15,7 +15,10 @@ import type { AppContext } from "./env";
  * @param paymentMiddleware - The payment middleware to apply when no valid cookie exists
  * @returns Combined authentication and payment middleware
  */
-export function requirePaymentOrCookie(paymentMw: MiddlewareHandler) {
+export function requirePaymentOrCookie(
+	paymentMw: MiddlewareHandler,
+	routePath: string
+) {
 	return async (c: Context<AppContext>, next: Next) => {
 		// Check for valid cookie
 		const token = getCookie(c, "auth_token");
@@ -36,8 +39,8 @@ export function requirePaymentOrCookie(paymentMw: MiddlewareHandler) {
 
 			const payload = await verifyJWT(token, jwtSecret);
 
-			// If token is valid, skip payment and go directly to handler
-			if (payload) {
+			// Cookie must match this exact protected path (per-image pay)
+			if (payload && payload.path === routePath) {
 				c.set("auth", payload);
 				await next(); // Call the handler
 				return;
@@ -105,6 +108,6 @@ export function createProtectedRoute(config: ProtectedRouteConfig) {
 		);
 
 		// Apply the combined auth/payment middleware
-		return await requirePaymentOrCookie(paymentMw)(c, next);
+		return await requirePaymentOrCookie(paymentMw, routePath)(c, next);
 	};
 }

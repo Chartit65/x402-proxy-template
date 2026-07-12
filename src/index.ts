@@ -111,6 +111,10 @@ function pathMatchesPattern(path: string, pattern: string): boolean {
  * Helper to find the protected route config for a given path
  * Includes both built-in protected routes and configured patterns
  */
+function normalizeRoutePath(rawPath: string): string {
+	return rawPath.length > 1 ? rawPath.replace(/\/+$/, "") : rawPath;
+}
+
 function findProtectedRouteConfig(
 	path: string,
 	patterns: ProtectedRouteConfig[]
@@ -129,6 +133,7 @@ function findProtectedRouteConfig(
  */
 app.use("*", async (c, next) => {
 	const path = c.req.path;
+	const routePath = normalizeRoutePath(path);
 	const protectedPatterns = c.env.PROTECTED_PATTERNS || [];
 
 	// Special handling for built-in endpoints
@@ -171,7 +176,7 @@ app.use("*", async (c, next) => {
 				// This is a new payment - generate JWT cookie
 				// Note: This runs after payment verification but BEFORE settlement.
 				// We'll check if settlement succeeded before actually using the token.
-				jwtToken = await generateJWT(c.env.JWT_SECRET, 3600);
+				jwtToken = await generateJWT(c.env.JWT_SECRET, routePath, 3600);
 			}
 
 			// Do nothing here - we'll proxy after middleware returns
@@ -200,7 +205,7 @@ app.use("*", async (c, next) => {
 					secure: true,
 					sameSite: "Strict",
 					maxAge: 3600,
-					path: "/",
+					path: routePath,
 				});
 			}
 
@@ -219,7 +224,7 @@ app.use("*", async (c, next) => {
 				secure: true,
 				sameSite: "Strict",
 				maxAge: 3600,
-				path: "/",
+				path: routePath,
 			});
 
 			// Clone the origin response and add our cookie header
