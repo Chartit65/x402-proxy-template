@@ -3,112 +3,348 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>StillGate — Paid Image Gallery</title>
+		<title>StillGate — Paid Stills Gallery</title>
 		<meta
 			name="description"
-			content="StillGate pay-per-image gallery. Each still costs $0.001 USDC on Base Sepolia. One payment unlocks one image."
+			content="StillGate — scroll the gallery, unlock each still for $0.001 USDC on Base Sepolia. One payment, one image."
 		/>
 		<style>
 			* {
 				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
 			}
+
+			:root {
+				--stone: #3a3834;
+				--stone-light: #5c574f;
+				--ivy: #2d4a32;
+				--ivy-deep: #1a2e1f;
+				--gold: #c4a35a;
+				--gold-dim: #8a7340;
+				--parchment: #e8e2d4;
+				--parchment-muted: #a89f8e;
+				--shadow: rgba(0, 0, 0, 0.45);
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
 			body {
-				font-family: system-ui, sans-serif;
-				max-width: 720px;
-				margin: 2rem auto;
-				padding: 0 1rem;
-				line-height: 1.5;
-				color: #111;
+				font-family: "Segoe UI", Georgia, "Times New Roman", serif;
+				background: var(--ivy-deep);
+				color: var(--parchment);
+				line-height: 1.55;
+				min-height: 100vh;
 			}
-			h1 {
-				font-size: 1.5rem;
-				margin-bottom: 0.25rem;
+
+			/* subtle vine texture overlay on whole page */
+			body::before {
+				content: "";
+				position: fixed;
+				inset: 0;
+				pointer-events: none;
+				z-index: 0;
+				background:
+					radial-gradient(
+						ellipse 80% 50% at 50% 0%,
+						rgba(45, 74, 50, 0.35),
+						transparent 70%
+					),
+					linear-gradient(
+						180deg,
+						rgba(26, 46, 31, 0.9) 0%,
+						rgba(15, 24, 17, 0.97) 100%
+					);
 			}
-			.sub {
-				color: #555;
-				margin-bottom: 1.5rem;
+
+			.hero {
+				position: relative;
+				width: 100%;
+				height: min(52vh, 420px);
+				overflow: hidden;
+				border-bottom: 3px solid var(--stone);
+				box-shadow: 0 8px 32px var(--shadow);
 			}
-			.grid {
-				display: grid;
-				gap: 0.75rem;
+
+			.hero img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center 40%;
+				display: block;
 			}
-			.card {
-				border: 1px solid #ddd;
-				border-radius: 8px;
-				padding: 1rem;
+
+			.hero-overlay {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(
+					to bottom,
+					rgba(15, 24, 17, 0.15) 0%,
+					rgba(15, 24, 17, 0.55) 55%,
+					rgba(15, 24, 17, 0.92) 100%
+				);
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				align-items: center;
+				text-align: center;
+				padding: 2rem 1.25rem 2.5rem;
 			}
-			.card a {
+
+			.hero-title {
+				font-size: clamp(2rem, 6vw, 3.25rem);
+				font-weight: 400;
+				letter-spacing: 0.28em;
+				text-transform: uppercase;
+				color: var(--parchment);
+				text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+				margin-bottom: 0.35rem;
+			}
+
+			.hero-tag {
+				font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+				color: var(--gold);
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				font-family: "Segoe UI", system-ui, sans-serif;
+			}
+
+			.wrap {
+				position: relative;
+				z-index: 1;
+				max-width: 920px;
+				margin: 0 auto;
+				padding: 2.5rem 1.25rem 4rem;
+			}
+
+			.intro {
+				text-align: center;
+				max-width: 36rem;
+				margin: 0 auto 2.75rem;
+				color: var(--parchment-muted);
+				font-family: "Segoe UI", system-ui, sans-serif;
+				font-size: 0.95rem;
+			}
+
+			.intro strong {
+				color: var(--gold);
 				font-weight: 600;
-				color: #0b57d0;
 			}
-			.price {
-				color: #333;
-				font-size: 0.9rem;
+
+			.section-label {
+				font-size: 0.7rem;
+				letter-spacing: 0.22em;
+				text-transform: uppercase;
+				color: var(--gold-dim);
+				margin-bottom: 1.25rem;
+				padding-bottom: 0.5rem;
+				border-bottom: 1px solid var(--stone-light);
 			}
-			footer {
-				margin-top: 2rem;
+
+			.gallery {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
+
+			.still-card {
+				display: grid;
+				grid-template-columns: 4.5rem 1fr auto;
+				gap: 1rem;
+				align-items: center;
+				background: linear-gradient(
+					135deg,
+					rgba(58, 56, 52, 0.85) 0%,
+					rgba(42, 40, 36, 0.92) 100%
+				);
+				border: 1px solid var(--stone-light);
+				border-left: 3px solid var(--gold-dim);
+				border-radius: 4px;
+				padding: 1.1rem 1.25rem;
+				transition:
+					border-color 0.2s,
+					transform 0.2s,
+					box-shadow 0.2s;
+				text-decoration: none;
+				color: inherit;
+			}
+
+			.still-card:hover {
+				border-left-color: var(--gold);
+				transform: translateX(4px);
+				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+			}
+
+			.still-num {
+				font-size: 1.75rem;
+				font-weight: 300;
+				color: var(--gold-dim);
+				font-family: Georgia, serif;
+				line-height: 1;
+			}
+
+			.still-body h2 {
+				font-size: 1.05rem;
+				font-weight: 600;
+				color: var(--parchment);
+				margin-bottom: 0.2rem;
+				font-family: "Segoe UI", system-ui, sans-serif;
+			}
+
+			.still-body p {
 				font-size: 0.85rem;
-				color: #666;
+				color: var(--parchment-muted);
+				font-family: "Segoe UI", system-ui, sans-serif;
 			}
+
+			.unlock {
+				font-size: 0.72rem;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--ivy-deep);
+				background: var(--gold);
+				padding: 0.55rem 0.85rem;
+				border-radius: 2px;
+				font-family: "Segoe UI", system-ui, sans-serif;
+				font-weight: 600;
+				white-space: nowrap;
+			}
+
+			.still-card:hover .unlock {
+				background: #d4b36a;
+			}
+
+			footer {
+				margin-top: 3rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid var(--stone-light);
+				text-align: center;
+				font-size: 0.8rem;
+				color: var(--parchment-muted);
+				font-family: "Segoe UI", system-ui, sans-serif;
+			}
+
 			footer a {
-				color: #0b57d0;
+				color: var(--gold);
+				text-decoration: none;
 			}
-			pre {
-				background: #f4f4f4;
-				padding: 0.75rem;
-				border-radius: 6px;
-				overflow-x: auto;
-				font-size: 0.75rem;
+
+			footer a:hover {
+				text-decoration: underline;
+			}
+
+			@media (max-width: 540px) {
+				.still-card {
+					grid-template-columns: 3rem 1fr;
+					grid-template-rows: auto auto;
+				}
+
+				.unlock {
+					grid-column: 2;
+					justify-self: start;
+				}
 			}
 		</style>
 	</head>
 	<body>
-		<h1>StillGate</h1>
-		<p class="sub">
-			Paid stills — $0.001 USDC on Base Sepolia. Pay once per image.
-			Click an image, connect wallet, unlock.
-		</p>
+		<header class="hero">
+			<img
+				src="/hero-gate.jpg"
+				alt="Black iron gate set in stone wall before an old mansion overgrown with vines"
+				width="1920"
+				height="1080"
+			/>
+			<div class="hero-overlay">
+				<h1 class="hero-title">StillGate</h1>
+				<p class="hero-tag">Paid stills · unlock at the gate</p>
+			</div>
+		</header>
 
-		<div class="grid">
-			<div class="card">
-				<a href="/1.jpg">1.jpg</a>
-				<div class="price">Still 1 — abstract digital art</div>
-			</div>
-			<div class="card">
-				<a href="/2.jpg">2.jpg</a>
-				<div class="price">Still 2 — abstract digital art</div>
-			</div>
-			<div class="card">
-				<a href="/3.jpg">3.jpg</a>
-				<div class="price">Still 3 — abstract digital art</div>
-			</div>
-			<div class="card">
-				<a href="/4.jpg">4.jpg</a>
-				<div class="price">Still 4 — abstract digital art</div>
-			</div>
-			<div class="card">
-				<a href="/5.jpg">5.jpg</a>
-				<div class="price">Still 5 — abstract digital art</div>
-			</div>
-			<div class="card">
-				<a href="/6.jpg">6.jpg</a>
-				<div class="price">Still 6 — abstract digital art</div>
-			</div>
-			<div class="card">
-				<a href="/7.jpg">7.jpg</a>
-				<div class="price">Still 7 — abstract digital art</div>
-			</div>
-			<div class="card">
-				<a href="/8.jpg">8.jpg</a>
-				<div class="price">Still 8 — ADTX SEC panel sidebar</div>
-			</div>
-		</div>
-
-		<footer>
-			<p>
-				StillGate · <a href="/__x402/stats">Traffic stats</a>
+		<main class="wrap">
+			<p class="intro">
+				Scroll the gallery. Each still is locked until you pay
+				<strong>$0.001 USDC</strong> on Base Sepolia — connect wallet,
+				unlock one image at a time.
 			</p>
-		</footer>
+
+			<p class="section-label">Gallery</p>
+
+			<div class="gallery">
+				<a class="still-card" href="/1.jpg">
+					<span class="still-num">01</span>
+					<div class="still-body">
+						<h2>Abstract digital art</h2>
+						<p>Still 1</p>
+					</div>
+					<span class="unlock">Unlock</span>
+				</a>
+				<a class="still-card" href="/2.jpg">
+					<span class="still-num">02</span>
+					<div class="still-body">
+						<h2>Abstract digital art</h2>
+						<p>Still 2</p>
+					</div>
+					<span class="unlock">Unlock</span>
+				</a>
+				<a class="still-card" href="/3.jpg">
+					<span class="still-num">03</span>
+					<div class="still-body">
+						<h2>Abstract digital art</h2>
+						<p>Still 3</p>
+					</div>
+					<span class="unlock">Unlock</span>
+				</a>
+				<a class="still-card" href="/4.jpg">
+					<span class="still-num">04</span>
+					<div class="still-body">
+						<h2>Abstract digital art</h2>
+						<p>Still 4</p>
+					</div>
+					<span class="unlock">Unlock</span>
+				</a>
+				<a class="still-card" href="/5.jpg">
+					<span class="still-num">05</span>
+					<div class="still-body">
+						<h2>Abstract digital art</h2>
+						<p>Still 5</p>
+					</div>
+					<span class="unlock">Unlock</span>
+				</a>
+				<a class="still-card" href="/6.jpg">
+					<span class="still-num">06</span>
+					<div class="still-body">
+						<h2>Abstract digital art</h2>
+						<p>Still 6</p>
+					</div>
+					<span class="unlock">Unlock</span>
+				</a>
+				<a class="still-card" href="/7.jpg">
+					<span class="still-num">07</span>
+					<div class="still-body">
+						<h2>Abstract digital art</h2>
+						<p>Still 7</p>
+					</div>
+					<span class="unlock">Unlock</span>
+				</a>
+				<a class="still-card" href="/8.jpg">
+					<span class="still-num">08</span>
+					<div class="still-body">
+						<h2>ADTX SEC panel sidebar</h2>
+						<p>Still 8 · desk capture</p>
+					</div>
+					<span class="unlock">Unlock</span>
+				</a>
+			</div>
+
+			<footer>
+				<p>
+					StillGate ·
+					<a href="/__x402/stats">Traffic stats</a>
+				</p>
+			</footer>
+		</main>
 
 		<script type="application/json" id="stillgate-catalog">
 			{
