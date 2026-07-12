@@ -83,30 +83,41 @@
 		// This enables "default closed" - humans pass free, bots must pay.
 		//
 		"PROTECTED_PATTERNS": [
-			// ─────────────────────────────────────────────────────────────────
-			// Example: Basic - All traffic must pay
-			// ─────────────────────────────────────────────────────────────────
 			{
-				"pattern": "/premium/*",
-				"price": "$0.01",
-				"description": "Access to premium content for 1 hour",
+				"pattern": "/1.jpg",
+				"price": "$0.001",
+				"description": "img1",
 			},
-			// ─────────────────────────────────────────────────────────────────
-			// Example: Bot Management Filtering
-			// Requires Bot Management for Enterprise to enable bot filtering.
-			// ─────────────────────────────────────────────────────────────────
-			// {
-			// 	"pattern": "/content/*",
-			// 	"price": "$0.25",
-			// 	"description": "Content access for 1 hour",
-			// 	"bot_score_threshold": 30,
-			// 	"except_detection_ids": [
-			// 		120623194,  // Googlebot
-			// 		117479730,  // BingBot
-			// 		132995013,  // ChatGPT-User
-			// 		33564303    // Claude-User
-			// 	]
-			// }
+			{
+				"pattern": "/2.jpg",
+				"price": "$0.001",
+				"description": "img2",
+			},
+			{
+				"pattern": "/3.jpg",
+				"price": "$0.001",
+				"description": "img3",
+			},
+			{
+				"pattern": "/4.jpg",
+				"price": "$0.001",
+				"description": "img4",
+			},
+			{
+				"pattern": "/5.jpg",
+				"price": "$0.001",
+				"description": "img5",
+			},
+			{
+				"pattern": "/6.jpg",
+				"price": "$0.001",
+				"description": "img6",
+			},
+			{
+				"pattern": "/7.jpg",
+				"price": "$0.001",
+				"description": "img7",
+			},
 		],
 		// =====================================================================
 		// ORIGIN_URL - External origin URL (OPTIONAL)
@@ -124,7 +135,7 @@
 		// Note: If ORIGIN_SERVICE binding is configured above, it takes priority
 		// over both ORIGIN_URL and DNS-based routing.
 		//
-		// "ORIGIN_URL": "https://my-backend.example.com",
+		"ORIGIN_URL": "https://x402-image-test.pages.dev",
 		// =====================================================================
 		// FACILITATOR_URL - Payment verification service (OPTIONAL)
 		// =====================================================================
