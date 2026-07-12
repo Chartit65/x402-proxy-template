@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /__x402/
+
+Sitemap: https://stillgate.quest/sitemap.xml
