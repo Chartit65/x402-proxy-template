@@ -134,7 +134,7 @@ export function renderStatsHtml(stats: StatsSnapshot): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>x402 Traffic Stats</title>
+  <title>StillGate Traffic Stats</title>
   <meta http-equiv="refresh" content="30" />
   <style>
     body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
@@ -150,8 +150,8 @@ export function renderStatsHtml(stats: StatsSnapshot): string {
   </style>
 </head>
 <body>
-  <h1>x402 Traffic Stats</h1>
-  <p class="sub">Auto-refreshes every 30s. Gallery home loads use Cloudflare Metrics until KV is wired.</p>
+  <h1>StillGate Traffic Stats</h1>
+  <p class="sub">Auto-refreshes every 30s.</p>
   ${setupNote}
   <div class="grid">
     <div class="card"><div class="num">${stats.browser_visits}</div><div class="label">Browser visits (paywall HTML)</div></div>
