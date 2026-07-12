@@ -2,8 +2,8 @@ import type { ProtectedRouteConfig } from "./auth";
 
 const PAY_TO = "0xC6D43A2C51e26F423476b92aba5108f2ec13Ad55";
 const FACILITATOR_URL = "https://x402.org/facilitator";
-const NETWORK_SLUG = "base-sepolia";
-const CAIP2_NETWORK = "eip155:84532";
+const NETWORK_SLUG = "base";
+const CAIP2_NETWORK = "eip155:8453";
 
 function stillEndpoint(
 	path: string,
@@ -36,7 +36,7 @@ export function paidStillManifest(
 		x402Version: 1,
 		name: "StillGate Paid Stills Gallery",
 		description:
-			"Unlock individual gallery stills via x402 micropayment on Base Sepolia. One payment unlocks one image path for one hour.",
+			"Unlock individual gallery stills via x402 micropayment on Base. One payment unlocks one image path for one hour.",
 		origin: "https://stillgate.quest",
 		facilitatorUrl: FACILITATOR_URL,
 		payTo: PAY_TO,

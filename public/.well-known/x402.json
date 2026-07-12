@@ -1,18 +1,18 @@
 {
 	"x402Version": 1,
 	"name": "StillGate Paid Stills Gallery",
-	"description": "Unlock individual gallery stills via x402 micropayment on Base Sepolia. One payment unlocks one image path for one hour.",
+	"description": "Unlock individual gallery stills via x402 micropayment on Base. One payment unlocks one image path for one hour.",
 	"origin": "https://stillgate.quest",
 	"facilitatorUrl": "https://x402.org/facilitator",
 	"payTo": "0xC6D43A2C51e26F423476b92aba5108f2ec13Ad55",
-	"network": "base-sepolia",
+	"network": "base",
 	"endpoints": [
 		{
 			"path": "/1.jpg",
 			"method": "GET",
 			"description": "Still 1 — abstract digital art, StillGate paid still",
 			"price": "$0.001",
-			"network": "eip155:84532",
+			"network": "eip155:8453",
 			"mimeType": "image/jpeg"
 		},
 		{
@@ -20,7 +20,7 @@
 			"method": "GET",
 			"description": "Still 2 — abstract digital art, StillGate paid still",
 			"price": "$0.001",
-			"network": "eip155:84532",
+			"network": "eip155:8453",
 			"mimeType": "image/jpeg"
 		},
 		{
@@ -28,7 +28,7 @@
 			"method": "GET",
 			"description": "Still 3 — abstract digital art, StillGate paid still",
 			"price": "$0.001",
-			"network": "eip155:84532",
+			"network": "eip155:8453",
 			"mimeType": "image/jpeg"
 		},
 		{
@@ -36,7 +36,7 @@
 			"method": "GET",
 			"description": "Still 4 — abstract digital art, StillGate paid still",
 			"price": "$0.001",
-			"network": "eip155:84532",
+			"network": "eip155:8453",
 			"mimeType": "image/jpeg"
 		},
 		{
@@ -44,7 +44,7 @@
 			"method": "GET",
 			"description": "Still 5 — abstract digital art, StillGate paid still",
 			"price": "$0.001",
-			"network": "eip155:84532",
+			"network": "eip155:8453",
 			"mimeType": "image/jpeg"
 		},
 		{
@@ -52,7 +52,7 @@
 			"method": "GET",
 			"description": "Still 6 — abstract digital art, StillGate paid still",
 			"price": "$0.001",
-			"network": "eip155:84532",
+			"network": "eip155:8453",
 			"mimeType": "image/jpeg"
 		},
 		{
@@ -60,7 +60,7 @@
 			"method": "GET",
 			"description": "Still 7 — abstract digital art, StillGate paid still",
 			"price": "$0.001",
-			"network": "eip155:84532",
+			"network": "eip155:8453",
 			"mimeType": "image/jpeg"
 		},
 		{
@@ -68,7 +68,7 @@
 			"method": "GET",
 			"description": "Still 8 — ADTX SEC panel sidebar capture, StillGate paid still",
 			"price": "$0.001",
-			"network": "eip155:84532",
+			"network": "eip155:8453",
 			"mimeType": "image/jpeg"
 		}
 	]

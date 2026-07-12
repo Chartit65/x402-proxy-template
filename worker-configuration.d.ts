@@ -7,7 +7,7 @@ declare namespace Cloudflare {
 	}
 	interface Env {
 		PAY_TO: "0x000000000000000000000000000000000000dEaD";
-		NETWORK: "base-sepolia";
+		NETWORK: "base";
 		PROTECTED_PATTERNS: [{"pattern":"/premium/*","price":"$0.01","description":"Access to premium content for 1 hour"}];
 		FACILITATOR_URL: "https://x402.org/facilitator";
 	}
