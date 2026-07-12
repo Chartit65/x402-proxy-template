@@ -10,6 +10,7 @@ import {
 	renderStatsHtml,
 } from "./stats";
 import type { AppContext, Env } from "./env";
+import { paidStillManifest, paidStillResourceList } from "./well-known";
 
 const app = new Hono<AppContext>();
 
@@ -34,6 +35,8 @@ const BUILT_IN_PUBLIC_PATHS = [
 	"/__x402/config",
 	"/__x402/stats",
 	"/__x402/stats.json",
+	"/.well-known/x402.json",
+	"/.well-known/x402",
 ];
 
 /**
@@ -303,6 +306,16 @@ app.get("/__x402/stats", async (c) => {
 app.get("/__x402/stats.json", async (c) => {
 	const stats = await getStatsSnapshot(c.env);
 	return c.json(stats);
+});
+
+app.get("/.well-known/x402.json", (c) => {
+	const patterns = (c.env.PROTECTED_PATTERNS || []) as ProtectedRouteConfig[];
+	return c.json(paidStillManifest(patterns));
+});
+
+app.get("/.well-known/x402", (c) => {
+	const patterns = (c.env.PROTECTED_PATTERNS || []) as ProtectedRouteConfig[];
+	return c.json(paidStillResourceList(patterns));
 });
 
 app.get("/__x402/config", (c) => {
