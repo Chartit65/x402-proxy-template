@@ -86,37 +86,37 @@
 			{
 				"pattern": "/1.jpg",
 				"price": "$0.001",
-				"description": "img1",
+				"description": "JPEG image 1 — abstract digital art, x402 paid asset",
 			},
 			{
 				"pattern": "/2.jpg",
 				"price": "$0.001",
-				"description": "img2",
+				"description": "JPEG image 2 — abstract digital art, x402 paid asset",
 			},
 			{
 				"pattern": "/3.jpg",
 				"price": "$0.001",
-				"description": "img3",
+				"description": "JPEG image 3 — abstract digital art, x402 paid asset",
 			},
 			{
 				"pattern": "/4.jpg",
 				"price": "$0.001",
-				"description": "img4",
+				"description": "JPEG image 4 — abstract digital art, x402 paid asset",
 			},
 			{
 				"pattern": "/5.jpg",
 				"price": "$0.001",
-				"description": "img5",
+				"description": "JPEG image 5 — abstract digital art, x402 paid asset",
 			},
 			{
 				"pattern": "/6.jpg",
 				"price": "$0.001",
-				"description": "img6",
+				"description": "JPEG image 6 — abstract digital art, x402 paid asset",
 			},
 			{
 				"pattern": "/7.jpg",
 				"price": "$0.001",
-				"description": "img7",
+				"description": "JPEG image 7 — abstract digital art, x402 paid asset",
 			},
 		],
 		// =====================================================================
