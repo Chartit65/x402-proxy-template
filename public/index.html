@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>StillGate — Paid Stills Gallery</title>
+		<title>StillGate — Stills Gallery</title>
 		<meta
 			name="description"
-			content="StillGate — scroll the gallery, unlock each still for $0.001 USDC on Base Sepolia. One payment, one image."
+			content="StillGate — scroll eight stills. A quiet gallery behind the gate."
 		/>
 		<style>
 			* {
@@ -151,7 +151,7 @@
 
 			.still-card {
 				display: grid;
-				grid-template-columns: 112px 2.5rem 1fr auto;
+				grid-template-columns: 112px 2.5rem 1fr;
 				gap: 1rem;
 				align-items: center;
 				background: linear-gradient(
@@ -193,39 +193,12 @@
 				height: 100%;
 				object-fit: cover;
 				display: block;
-				filter: saturate(0.88) brightness(0.82);
+				filter: saturate(0.95) brightness(0.9);
 				transition: filter 0.2s;
 			}
 
 			.still-card:hover .thumb-wrap img {
-				filter: saturate(1) brightness(0.92);
-			}
-
-			.thumb-wrap::after {
-				content: "";
-				position: absolute;
-				inset: 0;
-				background: linear-gradient(
-					to top,
-					rgba(15, 24, 17, 0.55) 0%,
-					transparent 55%
-				);
-				pointer-events: none;
-			}
-
-			.thumb-lock {
-				position: absolute;
-				bottom: 5px;
-				right: 6px;
-				font-size: 0.55rem;
-				letter-spacing: 0.1em;
-				text-transform: uppercase;
-				color: var(--gold);
-				background: rgba(15, 24, 17, 0.75);
-				padding: 2px 5px;
-				border-radius: 2px;
-				font-family: "Segoe UI", system-ui, sans-serif;
-				z-index: 1;
+				filter: saturate(1) brightness(0.95);
 			}
 
 			.still-num {
@@ -250,21 +223,20 @@
 				font-family: "Segoe UI", system-ui, sans-serif;
 			}
 
-			.unlock {
-				font-size: 0.72rem;
-				letter-spacing: 0.14em;
-				text-transform: uppercase;
-				color: var(--ivy-deep);
-				background: var(--gold);
-				padding: 0.55rem 0.85rem;
-				border-radius: 2px;
-				font-family: "Segoe UI", system-ui, sans-serif;
-				font-weight: 600;
-				white-space: nowrap;
-			}
+			@media (max-width: 540px) {
+				.still-card {
+					grid-template-columns: 96px 1fr;
+					gap: 0.65rem 0.85rem;
+				}
 
-			.still-card:hover .unlock {
-				background: #d4b36a;
+				.thumb-wrap {
+					width: 96px;
+					height: 72px;
+				}
+
+				.still-num {
+					display: none;
+				}
 			}
 
 			footer {
@@ -285,29 +257,6 @@
 			footer a:hover {
 				text-decoration: underline;
 			}
-
-			@media (max-width: 540px) {
-				.still-card {
-					grid-template-columns: 96px 1fr;
-					grid-template-rows: auto auto;
-					gap: 0.65rem 0.85rem;
-				}
-
-				.thumb-wrap {
-					width: 96px;
-					height: 72px;
-					grid-row: 1 / span 2;
-				}
-
-				.still-num {
-					display: none;
-				}
-
-				.unlock {
-					grid-column: 2;
-					justify-self: start;
-				}
-			}
 		</style>
 	</head>
 	<body>
@@ -320,116 +269,98 @@
 			/>
 			<div class="hero-overlay">
 				<h1 class="hero-title">StillGate</h1>
-				<p class="hero-tag">Paid stills · unlock at the gate</p>
+				<p class="hero-tag">Eight stills · scroll the gallery</p>
 			</div>
 		</header>
 
 		<main class="wrap">
 			<p class="intro">
-				Scroll the gallery. Each still is locked until you pay
-				<strong>$0.001 USDC</strong> on Base Sepolia — connect wallet,
-				unlock one image at a time.
+				Eight stills behind the gate. Scroll at your own pace.
 			</p>
 
 			<p class="section-label">Gallery</p>
 
 			<div class="gallery">
-				<a class="still-card" href="/1.jpg">
+				<div class="still-card">
 					<div class="thumb-wrap">
-						<img src="/thumbs/1.jpg" alt="Preview still 1" width="320" height="142" loading="lazy" />
-						<span class="thumb-lock">Locked</span>
+						<img src="/thumbs/1.jpg" alt="Still 1" width="320" height="142" loading="lazy" />
 					</div>
 					<span class="still-num">01</span>
 					<div class="still-body">
 						<h2>Abstract digital art</h2>
 						<p>Still 1</p>
 					</div>
-					<span class="unlock">Unlock</span>
-				</a>
-				<a class="still-card" href="/2.jpg">
+				</div>
+				<div class="still-card">
 					<div class="thumb-wrap">
-						<img src="/thumbs/2.jpg" alt="Preview still 2" width="320" height="142" loading="lazy" />
-						<span class="thumb-lock">Locked</span>
+						<img src="/thumbs/2.jpg" alt="Still 2" width="320" height="142" loading="lazy" />
 					</div>
 					<span class="still-num">02</span>
 					<div class="still-body">
 						<h2>Abstract digital art</h2>
 						<p>Still 2</p>
 					</div>
-					<span class="unlock">Unlock</span>
-				</a>
-				<a class="still-card" href="/3.jpg">
+				</div>
+				<div class="still-card">
 					<div class="thumb-wrap">
-						<img src="/thumbs/3.jpg" alt="Preview still 3" width="320" height="144" loading="lazy" />
-						<span class="thumb-lock">Locked</span>
+						<img src="/thumbs/3.jpg" alt="Still 3" width="320" height="144" loading="lazy" />
 					</div>
 					<span class="still-num">03</span>
 					<div class="still-body">
 						<h2>Abstract digital art</h2>
 						<p>Still 3</p>
 					</div>
-					<span class="unlock">Unlock</span>
-				</a>
-				<a class="still-card" href="/4.jpg">
+				</div>
+				<div class="still-card">
 					<div class="thumb-wrap">
-						<img src="/thumbs/4.jpg" alt="Preview still 4" width="320" height="142" loading="lazy" />
-						<span class="thumb-lock">Locked</span>
+						<img src="/thumbs/4.jpg" alt="Still 4" width="320" height="142" loading="lazy" />
 					</div>
 					<span class="still-num">04</span>
 					<div class="still-body">
 						<h2>Abstract digital art</h2>
 						<p>Still 4</p>
 					</div>
-					<span class="unlock">Unlock</span>
-				</a>
-				<a class="still-card" href="/5.jpg">
+				</div>
+				<div class="still-card">
 					<div class="thumb-wrap">
-						<img src="/thumbs/5.jpg" alt="Preview still 5" width="320" height="140" loading="lazy" />
-						<span class="thumb-lock">Locked</span>
+						<img src="/thumbs/5.jpg" alt="Still 5" width="320" height="140" loading="lazy" />
 					</div>
 					<span class="still-num">05</span>
 					<div class="still-body">
 						<h2>Abstract digital art</h2>
 						<p>Still 5</p>
 					</div>
-					<span class="unlock">Unlock</span>
-				</a>
-				<a class="still-card" href="/6.jpg">
+				</div>
+				<div class="still-card">
 					<div class="thumb-wrap">
-						<img src="/thumbs/6.jpg" alt="Preview still 6" width="320" height="145" loading="lazy" />
-						<span class="thumb-lock">Locked</span>
+						<img src="/thumbs/6.jpg" alt="Still 6" width="320" height="145" loading="lazy" />
 					</div>
 					<span class="still-num">06</span>
 					<div class="still-body">
 						<h2>Abstract digital art</h2>
 						<p>Still 6</p>
 					</div>
-					<span class="unlock">Unlock</span>
-				</a>
-				<a class="still-card" href="/7.jpg">
+				</div>
+				<div class="still-card">
 					<div class="thumb-wrap">
-						<img src="/thumbs/7.jpg" alt="Preview still 7" width="320" height="143" loading="lazy" />
-						<span class="thumb-lock">Locked</span>
+						<img src="/thumbs/7.jpg" alt="Still 7" width="320" height="143" loading="lazy" />
 					</div>
 					<span class="still-num">07</span>
 					<div class="still-body">
 						<h2>Abstract digital art</h2>
 						<p>Still 7</p>
 					</div>
-					<span class="unlock">Unlock</span>
-				</a>
-				<a class="still-card" href="/8.jpg">
+				</div>
+				<div class="still-card">
 					<div class="thumb-wrap">
-						<img src="/thumbs/8.jpg" alt="Preview still 8 ADTX SEC panel" width="101" height="320" loading="lazy" />
-						<span class="thumb-lock">Locked</span>
+						<img src="/thumbs/8.jpg" alt="Still 8 ADTX SEC panel" width="101" height="320" loading="lazy" />
 					</div>
 					<span class="still-num">08</span>
 					<div class="still-body">
 						<h2>ADTX SEC panel sidebar</h2>
 						<p>Still 8 · desk capture</p>
 					</div>
-					<span class="unlock">Unlock</span>
-				</a>
+				</div>
 			</div>
 
 			<footer>
@@ -439,7 +370,7 @@
 
 		<script type="application/json" id="stillgate-catalog">
 			{
-				"name": "StillGate Paid Image Gallery",
+				"name": "StillGate Image Gallery",
 				"site": "https://stillgate.quest",
 				"network": "base-sepolia",
 				"pricePerImage": "$0.001",
