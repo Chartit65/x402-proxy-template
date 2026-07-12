@@ -124,6 +124,11 @@
 				"price": "$0.001",
 				"description": "Still 7 — abstract digital art, StillGate paid still",
 			},
+			{
+				"pattern": "/8.jpg",
+				"price": "$0.001",
+				"description": "Still 8 — ADTX SEC panel sidebar capture, StillGate paid still",
+			},
 		],
 		// =====================================================================
 		// ORIGIN_URL - External origin URL (OPTIONAL)
